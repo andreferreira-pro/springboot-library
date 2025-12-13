@@ -33,7 +33,7 @@ public class LivroService {
         livroRepository.delete(livro);
     }
 
-    public List<Livro> pesquisarBySpecification(String isbn, String nomeAutor, String titulo,
+    public List<Livro> pesquisarBySpecification(String isbn, String titulo, String nomeAutor,
                                                 GeneroLivro genero, Integer anoPublicacao){
 
         Specification<Livro> livroSpecification = Specification.where(
@@ -49,6 +49,11 @@ public class LivroService {
             livroSpecification = livroSpecification.and(tituloLike(titulo));
         }
 
+        if(nomeAutor != null){
+
+            livroSpecification = livroSpecification.and(nomeAutorLike(nomeAutor));
+        }
+
         if(genero != null){
 
             livroSpecification = livroSpecification.and(generoEqual(genero));
@@ -58,12 +63,7 @@ public class LivroService {
 
             livroSpecification = livroSpecification.and(anoPublicacaoEqual(anoPublicacao));
         }
-
-        if(nomeAutor != null){
-
-            livroSpecification = livroSpecification.and(nomeAutorLike(nomeAutor));
-        }
-
+        
         return livroRepository.findAll(livroSpecification);
     }
 }
