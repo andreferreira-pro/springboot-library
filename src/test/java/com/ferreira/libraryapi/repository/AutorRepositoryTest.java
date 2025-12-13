@@ -130,7 +130,7 @@ class AutorRepositoryTest {
         UUID id = UUID.fromString("66591fa6-3981-4cf0-8148-6e7210ac840b");
         Autor autor = autorRepository.findById(id).get();
 
-        List<Livro> livros = livroRepository.findByIdAutor(autor);
+        List<Livro> livros = livroRepository.findByAutor(autor);
 
         autor.setLivros(livros);
 

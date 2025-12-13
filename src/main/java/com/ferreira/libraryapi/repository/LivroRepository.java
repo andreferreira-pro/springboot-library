@@ -22,8 +22,8 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
 
     // query method
 
-    // select * from livro where id_autor = ?
-    List<Livro> findByIdAutor(Autor autor);
+    // select * from livro where autor = ?
+    List<Livro> findByAutor(Autor autor);
 
     // select * from livro where titulo = ?
     List<Livro> findByTitulo(String titulo);
@@ -49,7 +49,7 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
     from livro l
     join autor a on a.id = l.id_autor
     * */
-    @Query(" select a from Livro l join l.idAutor a ")
+    @Query(" select a from Livro l join l.autor a ")
     List<Autor> listarAutoresDosLivros();
 
     //select distinct l.* from livro l
@@ -57,9 +57,9 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
     List<String> listarNomeDiferentesLivros();
 
     @Query("""
-            select l.genero 
+            select l.genero
             from Livro l
-            join l.idAutor a
+            join l.autor a
             where a.nacionalidade = 'Canadense'
             order by l.genero
             """)
@@ -85,6 +85,6 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
     @Query(" update Livro set dataPublicacao = ?1 ")
     void updateLivroDataPublicacao (LocalDate novaData);
 
-    boolean existsByIdAutor(Autor autor);
+    boolean existsByAutor(Autor autor);
 
 }

@@ -93,7 +93,7 @@ public class AutorService {
 
     public boolean possuiLivro(Autor autor){
 
-        return livroRepository.existsByIdAutor(autor);
+        return livroRepository.existsByAutor(autor);
     }
 
 }
