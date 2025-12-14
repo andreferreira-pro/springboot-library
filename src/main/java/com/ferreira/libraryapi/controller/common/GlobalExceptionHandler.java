@@ -2,6 +2,7 @@ package com.ferreira.libraryapi.controller.common;
 
 import com.ferreira.libraryapi.controller.dto.ErroCampo;
 import com.ferreira.libraryapi.controller.dto.ErroResposta;
+import com.ferreira.libraryapi.exceptions.CampoValidoException;
 import com.ferreira.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import com.ferreira.libraryapi.exceptions.RegistroDuplicadoException;
 import org.springframework.http.HttpStatus;
@@ -47,6 +48,17 @@ public class GlobalExceptionHandler {
 
         return ErroResposta.repostaPadrao(e.getMessage());
     }
+
+    @ExceptionHandler(CampoValidoException.class)
+    public ErroResposta handleCampoInvalidException(CampoValidoException e){
+
+        return new ErroResposta(
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "Erro validação.",
+                List.of(new ErroCampo(e.getCampo(), e.getMessage())));
+    }
+
+
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErroResposta handlerErrosNaoTratados(RuntimeException e){
@@ -56,6 +68,5 @@ public class GlobalExceptionHandler {
                 ("Ocorreu um erro inesperado. Entre em contato com o administrador"),
                 List.of()
         );
-
     }
 }
