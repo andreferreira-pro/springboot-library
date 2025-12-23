@@ -2,7 +2,9 @@ package com.ferreira.libraryapi.service;
 
 import com.ferreira.libraryapi.model.GeneroLivro;
 import com.ferreira.libraryapi.model.Livro;
+import com.ferreira.libraryapi.model.Usuario;
 import com.ferreira.libraryapi.repository.LivroRepository;
+import com.ferreira.libraryapi.security.SecurityService;
 import com.ferreira.libraryapi.validator.LivroValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,14 +24,19 @@ import static com.ferreira.libraryapi.repository.specs.LivroSpecs.*;
 public class LivroService {
 
     private final LivroRepository livroRepository;
-
     private final LivroValidator livroValidator;
+    private final SecurityService securityService;
+
 
     public Livro salvar(Livro livro) {
 
         livroValidator.validar(livro);
 
-       return livroRepository.save(livro);
+        Usuario usuario = securityService.obterUsuarioLogado();
+
+        livro.setUsuario(usuario);
+
+        return livroRepository.save(livro);
     }
 
     public Optional<Livro> obterPorId(UUID id){

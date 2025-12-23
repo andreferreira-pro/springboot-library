@@ -2,8 +2,10 @@ package com.ferreira.libraryapi.service;
 
 import com.ferreira.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import com.ferreira.libraryapi.model.Autor;
+import com.ferreira.libraryapi.model.Usuario;
 import com.ferreira.libraryapi.repository.AutorRepository;
 import com.ferreira.libraryapi.repository.LivroRepository;
+import com.ferreira.libraryapi.security.SecurityService;
 import com.ferreira.libraryapi.validator.AutorValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,16 @@ public class AutorService {
     private final AutorRepository autorRepository;
     private final AutorValidator autorValidator;
     private final LivroRepository livroRepository;
+    private final SecurityService securityService;
 
     public Autor salvar(Autor autor){
 
         autorValidator.validar(autor);
+
+        Usuario usuario = securityService.obterUsuarioLogado();
+
+        autor.setUsuario(usuario);
+
         return autorRepository.save(autor);
     }
 
