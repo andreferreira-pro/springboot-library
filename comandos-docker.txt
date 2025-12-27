@@ -6,3 +6,6 @@ docker run --name librarydb -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGR
 
 #Rodar container pgadmin4
 docker run --name pgadmin4 -p 15432:80 -e PGADMIN_DEFAULT_EMAIL=admin@admin.com -e PGADMIN_DEFAULT_PASSWORD=admin -d --network libry-network dpage/pgadmin4:8.9
+
+# Rodar container postrgre de produção
+docker run --name librarydb-prod -p 5433:5432 -e POSTGRES_PASSWORD=postgresprod -e POSTGRES_USER=postgresprod -e POSTGRES_DB=library -d --network libry-network postgres:16.3
