@@ -9,3 +9,9 @@ docker run --name pgadmin4 -p 15432:80 -e PGADMIN_DEFAULT_EMAIL=admin@admin.com 
 
 # Rodar container postrgre de produção
 docker run --name librarydb-prod -p 5433:5432 -e POSTGRES_PASSWORD=postgresprod -e POSTGRES_USER=postgresprod -e POSTGRES_DB=library -d --network libry-network postgres:16.3
+
+# Criando imagem docker da aplicação
+docker build --tag andreferreira-pro/springboot-library .
+
+# Rodar container com imagem criada via docker file
+docker run --name libraryapi-production -e DATASOURCE_URL=jdbc:postgresql://librarydb-prod:5432/library -e DATASOURCE_USERNAME=postgresprod -e DATASOURCE_PASSWORD=postgresprod --network libry-network -d -p 8080:8080 -p 9090:9090 andreferreira-pro/springboot-library
